@@ -26,3 +26,16 @@ class CategoryNew(LoginRequiredMixin, generic.CreateView):
     def form_valid(self, form):
         form.instance.user_create = self.request.user
         return super().form_valid(form)
+
+
+class CategoryEdit(LoginRequiredMixin, generic.UpdateView):
+    model = Category
+    template_name = "inv/category_form.html"
+    context_object_name = "obj"
+    form_class = CategoryForm
+    success_url = reverse_lazy("inv:categories_list")
+    login_url = "base:login"
+
+    def form_valid(self, form):
+        form.instance.user_update = self.request.user.id
+        return super().form_valid(form)
